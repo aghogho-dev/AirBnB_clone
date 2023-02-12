@@ -26,18 +26,18 @@ class FileStorage:
     def save(self):
         """erializes __objects to the JSON file (path: __file_path)"""
         my_dict = self.__objects
-        new_dict = {key: my_dict[key].to_dict() for key in my_dict]
-        with open(self.__file_path, "w") as file:
+        new_dict = {key: my_dict[key].to_dict() for key in my_dict}
+        with open(FileStorage.__file_path, "w") as file:
             json.dump(new_dict, file)
 
     def reload(cls):
         """deserializes the JSON file to __objects (only if the JSON file (__file_path) exists."""
         try:
-            with open(self.__file_path) as file:
+            with open(FileStorage.__file_path) as file:
                 my_dict = json.load(file)
                 for v in my_dict.values():
                     name_cls = v['__class__']
                     del v['__class__']
                     cls.new(eval(name_cls)(**v))
-        except FileNotFounderror:
+        except FileNotFoundError:
             return

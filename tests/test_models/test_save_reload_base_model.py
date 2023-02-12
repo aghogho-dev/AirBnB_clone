@@ -6,6 +6,7 @@ from datetime import datetime as dt
 from time import sleep
 import os
 import shutil
+import json
 
 
 class TestBaseModelDict(unittest.TestCase):
@@ -82,11 +83,11 @@ class TestBaseModelDict(unittest.TestCase):
 
     def test_compare_to_dict_dict_magic(self):
         self.assertNotEqual(self.my_model_dict, self.my_model.__dict__)
-        self.assetNotEqual(self.my_model2_dict, self.my_model2.__dict__)
+        self.assertNotEqual(self.my_model2_dict, self.my_model2.__dict__)
 
     def test_kargs(self):
         tm = dt.now()
-        tm_iso = tm.isoformant()
+        tm_iso = tm.isoformat()
         model = BaseModel(id="abcd-1234", created_at=tm_iso, updated_at=tm_iso)
 
         self.assertEqual(model.id, "abcd-1234")
@@ -102,8 +103,8 @@ class TestBaseModelDict(unittest.TestCase):
         model = BaseModel("1234-abcd", tm_iso, tm_iso)
 
         self.assertNotEqual(model.id, "1234-abcd")
-        self.assertNotEqaul(model.created_at, tm_iso)
-        self.assertNoTeQUAL(model.updated_at, tm_iso)
+        self.assertNotEqual(model.created_at, tm_iso)
+        self.assertNotEqual(model.updated_at, tm_iso)
 
     def test_arg_kwargs(self):
         tm_iso = dt.now().isoformat()
@@ -139,10 +140,10 @@ class TestBaseModelSave(unittest.TestCase):
 
     def test_save_id(self):
         self.model.save()
-        new_id = "BaseModel." + self.model.id
+        new_id = self.model.id
         with open(self.__src) as f, open(self.__dest) as f1:
-            data = f.read()
-            data1 = f1.read()
+            data = json.load(f)
+            data1 = json.load(f1)
 
         self.assertIn(new_id, data)
         self.assertLess(data1["id"], data["id"])
@@ -165,7 +166,6 @@ class TestBaseModelSave(unittest.TestCase):
     def test_save_kwargs(self):
         with self.assertRaises(TypeError):
             self.model.save(obj=None)
-
 
 if __name__ == "__main__":
     unittest.main()
