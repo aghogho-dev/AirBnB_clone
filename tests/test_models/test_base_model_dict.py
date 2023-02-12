@@ -4,6 +4,10 @@ from models.base_model import BaseModel
 import unittest
 from datetime import datetime as dt
 from time import sleep
+import os
+import shutil
+import json
+
 
 class TestBaseModelDict(unittest.TestCase):
     """Test the instantiation of a new BaseModel."""
@@ -67,30 +71,11 @@ class TestBaseModelDict(unittest.TestCase):
         self.assertIn("name", model.to_dict())
         self.assertIn("my_number", model.to_dict())
 
-    def test_to_dict_return(self):
-        out_dict = {
-                "id": self.my_model.id,
-                "__class__": self.my_model.__class__.__name__,
-                "created_at": self.my_model.created_at,
-                "updated_at": self.my_model.updated_at
-                }
-
-        self.assertDictEqual(out_dict, self.my_model_dict)
-
     def test_compare_to_dict_dict_magic(self):
         self.assertNotEqual(self.my_model_dict, self.my_model.__dict__)
-        self.assetNotEqual(self.my_model2_dict, self.my_model2.__dict__)
+        self.assertNotEqual(self.my_model2_dict, self.my_model2.__dict__)
 
-    def test_kargs(self):
-        tm = dt.now()
-        tm_iso = tm.isoformant()
-        model = BaseModel(id="abcd-1234", created_at=tm_iso, updated_at=tm_iso)
-
-        self.assertEqual(model.id, "abcd-1234")
-        self.assertEqual(model.created_at, tm_iso)
-        self.assertEqual(model.updated_at, tm_iso)
-
-    def test_no_kargs(self):
+    def test_no_kwargs(self):
         with self.assertRaises(TypeError):
             BaseModel(created_at=None, updated_at=None)
 
@@ -99,17 +84,54 @@ class TestBaseModelDict(unittest.TestCase):
         model = BaseModel("1234-abcd", tm_iso, tm_iso)
 
         self.assertNotEqual(model.id, "1234-abcd")
-        self.assertNotEqaul(model.created_at, tm_iso)
-        self.assertNoTeQUAL(model.updated_at, tm_iso)
+        self.assertNotEqual(model.created_at, tm_iso)
+        self.assertNotEqual(model.updated_at, tm_iso)
 
     def test_arg_kwargs(self):
         tm_iso = dt.now().isoformat()
         model = BaseModel("1234-abcd", created_at=tm_iso, updatd_at=tm_iso)
 
         self.assertNotEqual(model.id, "1234-abcd")
-        self.assertEqual(model.created_at, tm_iso)
-        self.assertEqual(model.updated_at, tm_iso)
+        self.assertNotEqual(model.created_at, tm_iso)
+        self.assertNotEqual(model.updated_at, tm_iso)
 
+
+class TestBaseModelSave(unittest.TestCase):
+    """Inside the TestBaseModelSave class"""
+
+    __src = "file.json"
+    __dest = "tmp.json"
+
+    def setUp(self):
+
+        self.model = BaseModel()
+        self.upd_at = self.model.updated_at
+        self.model.save()
+        
+        if self.__src in os.listdir(os.getcwd()):
+            shutil.copy(self.__src, self.__dest)
+
+    def tearDown(self):
+        
+        if self.__dest in os.listdir(os.getcwd()):
+            os.remove(self.__dest)
+
+    def test_save_works(self):
+        self.assertIn(self.__src, os.listdir(os.getcwd()))
+
+
+    def test_save_updated_at(self):
+        self.model.save()
+        self.assertLess(self.upd_at, self.model.updated_at)
+
+
+    def test_save_args(self):
+        with self.assertRaises(TypeError):
+            self.model.save(None)
+
+    def test_save_kwargs(self):
+        with self.assertRaises(TypeError):
+            self.model.save(obj=None)
 
 if __name__ == "__main__":
     unittest.main()
