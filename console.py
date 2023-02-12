@@ -82,6 +82,21 @@ class HBNBCommand(cmd.Cmd):
         print(" Deletes an instance based on the class name and id (save the change into the JSON file)")
         print("")
 
+    def do_all(self, line):
+    
+        if "BaseModel" not in line and line:
+            print("** class doesn't exist **")
+        else:
+            dict_obj = storage.all()
+            obj_list = []
+            for one_obj in dict_obj.values():
+                obj_list.append(str(one_obj))
+
+            print(obj_list)
+
+    def help_all(self):
+        print("Prints all string representation of all instances based or not on the class name")
+
 
 
 
