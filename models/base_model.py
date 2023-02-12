@@ -2,6 +2,7 @@
 """Inside the base_model module."""
 from uuid import uuid4
 from datetime import datetime as dt
+from models import storage
 
 
 class BaseModel:
@@ -25,12 +26,14 @@ class BaseModel:
                     self.__dict__[key] = dt.strptime(kwargs[key], "%Y-%m-%dT%H:%M:%S.%f")
                 else:
                     self.__dict__[key] = kwargs[key]
+        else:
+            storage.new(self)
 
 
     def save(self):
         """Update update_at."""
-
         self.updated_at = dt.now()
+        storage.save()
 
     def __str__(self):
         """Representation of the BaseModel."""
