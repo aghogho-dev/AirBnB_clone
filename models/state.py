@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Inside the state module."""
-from model.base_model import BaseModel
+from models.base_model import BaseModel
 
 
 
