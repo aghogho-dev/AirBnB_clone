@@ -10,6 +10,8 @@ class HBNBCommand(cmd.Cmd):
     """Inside the HBNBC class."""
 
     prompt = '(hbnb) '
+    classes_str = ["BaseModel", "User"]
+    classes = [BaseModel, User]
 
     def do_quit(self, line):
         return True
@@ -32,7 +34,7 @@ class HBNBCommand(cmd.Cmd):
         if not line:
             print("** class name missing **")
         else:
-            if "BaseModel" not in line:
+            if line.strip() not in self.classes_str:
                 print("** class doesn't exist **")
             else:
                 print(eval(line)().id)
@@ -46,7 +48,7 @@ class HBNBCommand(cmd.Cmd):
     
         if not line:
             print("** class name missing **")
-        elif "BaseModel" not in line:
+        elif line.strip().split()[0] not in self.classes_str:
             print("** class doesn't exist **")
         else:
 
@@ -70,7 +72,7 @@ class HBNBCommand(cmd.Cmd):
 
         if not line:
             print("** class name missing **")
-        elif "BaseModel" not in line:
+        elif line.strip().split()[0] not in self.classes_str:
             print("** class doesn't exist **")
         elif len(sline) != 2:
             print("** instance id missing **")
@@ -86,7 +88,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, line):
     
-        if "BaseModel" not in line and line:
+        if line.strip().split()[0] not in self.classes_str and line:
             print("** class doesn't exist **")
         else:
             dict_obj = storage.all()
@@ -105,9 +107,9 @@ class HBNBCommand(cmd.Cmd):
 
         if not line:
             print("** class name missing **")
-        elif "BaseModel" not in line:
+        elif line.strip().split()[0] not in self.classes_str:
             print("** class doesn't exist **")
-        elif len(sline) == 1 and "BaseModel" in line:
+        elif len(sline) == 1 and line.strip().split()[0] in self.classes_str:
             print("** instance id missing **")
         elif "{}.{}".format(sline[0], sline[1]) not in dict_obj:
             print("** no instance found **")
