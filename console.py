@@ -33,7 +33,7 @@ class HBNBCommand(cmd.Cmd):
         if not line:
             print("** class name missing **")
         else:
-            if line not in self.__classes:
+            if line not in HBNBCommand.__classes:
                 print("** class doesn't exist **")
             else:
                 print(eval(line)().id)
@@ -47,7 +47,7 @@ class HBNBCommand(cmd.Cmd):
     
         if not line:
             print("** class name missing **")
-        elif line.split()[0] not in self.__classes:
+        elif line.split()[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         else:
 
@@ -71,7 +71,7 @@ class HBNBCommand(cmd.Cmd):
 
         if not line:
             print("** class name missing **")
-        elif sline[0] not in self.__classes:
+        elif sline[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         elif len(sline) != 2:
             print("** instance id missing **")
@@ -87,7 +87,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, line):
     
-        if line.split()[0] not in self.__classes and line:
+        if line.split()[0] not in HBNBCommand.__classes and line:
             print("** class doesn't exist **")
         else:
             dict_obj = storage.all()
@@ -106,9 +106,9 @@ class HBNBCommand(cmd.Cmd):
 
         if not line:
             print("** class name missing **")
-        elif sline[0] not in self.__classes:
+        elif sline[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
-        elif len(sline) == 1 and sline[0] in self.__classes:
+        elif len(sline) == 1 and sline[0] in HBNBCommand.__classes:
             print("** instance id missing **")
         elif "{}.{}".format(sline[0], sline[1]) not in dict_obj:
             print("** no instance found **")
