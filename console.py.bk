@@ -10,6 +10,7 @@ class HBNBCommand(cmd.Cmd):
     """Inside the HBNBC class."""
 
     prompt = '(hbnb) '
+    __classes = ["BaseModel", "User"]
 
     def do_quit(self, line):
         return True
