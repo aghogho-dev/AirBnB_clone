@@ -97,6 +97,33 @@ class HBNBCommand(cmd.Cmd):
     def help_all(self):
         print("Prints all string representation of all instances based or not on the class name")
 
+    def do_update(self, line):
+        dict_obj = storage.all()
+        sline = line.split()
+
+        if not line:
+            print("** class name missing **")
+        elif "BaseModel" not in line:
+            print("** class doesn't exist **")
+        elif len(sline) == 1 and "BaseModel" in line:
+            print("** instance id missing **")
+        elif "{}.{}".format(sline[0], sline[1]) not in dict_obj:
+            print("** no instance found **")
+        elif len(sline) == 2:
+            print("** attribute name missing **")
+        elif len(sline) == 3:
+            print("** value missing **")
+        
+        if len(sline) == 4:
+            obj = dict_obj["{}.{}".format(sline[0], sline[1])]
+            if sline[2] in obj.__class__.__dict__:
+                obj.__dict__[sline[2]] = type(obj.__class__.__dict__[sline[2]])
+            else:
+                obj.__dict__[sline[2]] = sline[3]
+
+        storage.save()
+
+
 
 
 
