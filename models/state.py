@@ -3,10 +3,12 @@
 from model.base_model import BaseModel
 
 
+
 class State(BaseModel):
     """Inside state class.
 
     Attrs:
         name (str): name of state.
     """
+
     name = ""
