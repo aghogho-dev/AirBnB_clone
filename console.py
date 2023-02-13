@@ -135,13 +135,6 @@ class HBNBCommand(cmd.Cmd):
 
         storage.save()
 
-    def do_count(self, line):
-        n = 0
-        for i in storage.all().values():
-            if line.strip() == i.__class__.__name__:
-                n += 1
-        print(n)
-
 
 
 if __name__ == '__main__':
