@@ -52,16 +52,16 @@ section.filters button:hover {
 
 /* h3 style */
 .filters h3 {
-	font-size: 1.17em;
+	font-size: 16px;
 	font-weight: 600;
-	height: 50%;
-	padding: 15.5px 0px 0px 30px;
+	height: 25%;
+	padding: 10px 0px 0px 20px;
 }
 
 /* h4 style */
 .filters h4 {
 	font-size: 14px;
 	font-weight: 400;
-	height: 50%;
-	padding: 4.5px 0px 12px 30px;
+	height: 15%;
+	padding: 0px 0px 0px 20px;
 }
