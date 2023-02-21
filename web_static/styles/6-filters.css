@@ -38,7 +38,7 @@ section.filters button:hover {
 }
 
 /* Locations */
-.locations {
+.filters .locations {
 	border-right: 1px solid #dddddd;
 }
 
@@ -60,7 +60,7 @@ section.filters button:hover {
 
 /* Loc and amenities pop hovers */
 .filters .locations:hover .popover,
-.filters .amenitiresLhover .popover {
+.filters .amenities:hover .popover {
 	display: block;
 }
 
